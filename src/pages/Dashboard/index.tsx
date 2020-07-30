@@ -51,8 +51,15 @@ const Dashboard: React.FC = () => {
           };
         },
       );
+
+      const formattedBalance = {
+        income: formatValue(Number(data.balance.income)),
+        outcome: formatValue(Number(data.balance.outcome)),
+        total: formatValue(Number(data.balance.total)),
+      };
+
       setTransactions(formattedTransactions);
-      setBalance(data.balance);
+      setBalance(formattedBalance);
     }
 
     loadTransactions();
@@ -68,30 +75,21 @@ const Dashboard: React.FC = () => {
               <p>Entradas</p>
               <img src={income} alt="Income" />
             </header>
-            <h1 data-testid="balance-income">
-              R$
-              {formatValue(Number(balance.income))}
-            </h1>
+            <h1 data-testid="balance-income">{balance.income}</h1>
           </Card>
           <Card>
             <header>
               <p>Saídas</p>
               <img src={outcome} alt="Outcome" />
             </header>
-            <h1 data-testid="balance-outcome">
-              R$
-              {formatValue(Number(balance.outcome))}
-            </h1>
+            <h1 data-testid="balance-outcome">{balance.outcome}</h1>
           </Card>
           <Card total>
             <header>
               <p>Total</p>
               <img src={total} alt="Total" />
             </header>
-            <h1 data-testid="balance-total">
-              R$
-              {formatValue(Number(balance.total))}
-            </h1>
+            <h1 data-testid="balance-total">{balance.total}</h1>
           </Card>
         </CardContainer>
 
@@ -111,7 +109,7 @@ const Dashboard: React.FC = () => {
                 <tr key={transaction.id}>
                   <td className="title">{transaction.title}</td>
                   <td className={transaction.type}>
-                    R$
+                    {transaction.type === 'outcome' && ' - '}
                     {transaction.formattedValue}
                   </td>
                   <td>{transaction.category.title}</td>
